@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,9 +67,19 @@ public class MainActivity extends AppCompatActivity {
                 MyItem MyItem = new MyItem();
                 MyItem.title = data.getStringExtra("title");
                 MyItem.description = data.getStringExtra("description");
-                MyItem.photo = data.getData();
+                Uri selectedPhotoURI = data.getData();
+
+                try {
+                    Bitmap photo = com.example.produtos.util.Util.getBitmap(MainActivity.this,selectedPhotoURI,100,100);
+                    MyItem.photo = photo;
+                } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                }
+
+
                 itens.add(MyItem);
                 myAdapter.notifyItemInserted(itens.size()-1);
+
             }
         }
 
