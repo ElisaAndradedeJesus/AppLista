@@ -1,6 +1,8 @@
 package jesus.de.andrade.elisa.lista.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jesus.de.andrade.elisa.lista.R;
+import jesus.de.andrade.elisa.lista.model.MainActivityViewModel;
 import jesus.de.andrade.elisa.lista.model.MyItem;
 import jesus.de.andrade.elisa.lista.adapter.MyAdapter;
 
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
     RecyclerView rvItens = findViewById(R.id.rvItens);
+
+    MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+    List<MyItem> itens = vm.getItens();
+
     myAdapter = new MyAdapter(this,itens);
     rvItens.setAdapter(myAdapter);
 
@@ -76,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                 }
 
+                MainActivityViewModel vm = new ViewModelProvider(this).get(MainActivityViewModel.class);
+                List<MyItem> itens = vm.getItens();
 
                 itens.add(MyItem);
                 myAdapter.notifyItemInserted(itens.size()-1);

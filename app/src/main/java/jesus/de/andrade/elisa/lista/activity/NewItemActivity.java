@@ -2,6 +2,7 @@ package jesus.de.andrade.elisa.lista.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import jesus.de.andrade.elisa.lista.R;
+import jesus.de.andrade.elisa.lista.model.NewItemActivityViewModel;
 
 public class NewItemActivity extends AppCompatActivity {
     // some attributes (～￣▽￣)～
@@ -27,6 +29,13 @@ public class NewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item);
 
+        NewItemActivityViewModel vm = new ViewModelProvider(this).get(NewItemActivityViewModel.class);
+
+        Uri selectPhotoLocation = vm.getSelectedPhototoLocation();
+        if(selectPhotoLocation !=null){
+            ImageView imvPhotoPreview = findViewById(R.id.imvPhotoPreview);
+            imvPhotoPreview.setImageURI(selectPhotoLocation);
+        }
 
         //Adding code ↓ ~(￣▽￣~)
         ImageButton imgCI = findViewById(R.id.imbCI);
@@ -78,6 +87,9 @@ public class NewItemActivity extends AppCompatActivity {
                 photoSelected = data.getData();
                 ImageView imvPhotoPreview = findViewById(R.id.imvPhotoPreview);
                 imvPhotoPreview.setImageURI(photoSelected);
+
+                NewItemActivityViewModel vm = new ViewModelProvider(this).get(NewItemActivityViewModel.class);
+                vm.setSelectPhotoLocation(photoSelected);
             }
         }
     }
